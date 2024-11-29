@@ -7,7 +7,7 @@ app.disable('etag').disable('x-powered-by');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// CONNECT TO REDIS SERVER
+
 const redisClient = redis.createClient('redis://localhost:6379' as any);
 
 redisClient.on('connect', () => {
@@ -22,11 +22,10 @@ redisClient.on('error', (err) => {
   console.log('Redis connection error', err);
 });
 
-// USSD ROUTE
+=
 app.post('/ussd', async (req, res) => {
   try {
-    // RUN THE MENU BUILDER
-    // PASS REQ BODY AND REDIS CLIENT
+
     const menu_res = await ussdMenuBuilder(req.body, redisClient);
     res.send(menu_res);
   } catch (e) {
